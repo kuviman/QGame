@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProjectGuid>{E4D6EAF4-034F-47D2-A1D9-E90C6F568FA7}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>QGame</RootNamespace>
+    <AssemblyName>QGame</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Reference Include="NDesk.Options">
+      <HintPath>..\packages\NDesk.Options.0.2.1\lib\NDesk.Options.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Source\Entity\System.cs" />
+    <Compile Include="Source\Entity\Messages.cs" />
+    <Compile Include="Source\Entity\_Def.cs" />
+    <Compile Include="Source\Misc\ResourcedTexture.cs" />
+    <Compile Include="Source\Terrain\Messages.cs" />
+    <Compile Include="Source\Messages\_Def.cs" />
+    <Compile Include="Source\Model\Model.cs" />
+    <Compile Include="Source\Terrain\Textures.cs" />
+    <Compile Include="Source\Terrain\_Def.cs" />
+    <Compile Include="Source\QGame.cs" />
+    <Compile Include="Source\Misc\_Def.cs" />
+    <Compile Include="Source\Model\Message.cs" />
+    <Compile Include="Source\Model\Server.cs" />
+    <Compile Include="Source\Client\_Def.cs" />
+    <Compile Include="Source\Client\View.cs" />
+    <Compile Include="Source\Client\SceneView.cs" />
+    <Compile Include="Source\Systems\Movement\MovementSystem.cs" />
+    <Compile Include="Source\Systems\Movement\MovementBroadcastingSystem.cs" />
+    <Compile Include="Source\Systems\Movement\MovementPredictionSystem.cs" />
+    <Compile Include="Source\Systems\Collision\ServerCollisionSystem.cs" />
+    <Compile Include="Source\Systems\Collision\TerrainCollisionSystem.cs" />
+    <Compile Include="Source\Systems\Collision\CollisionSystem.cs" />
+    <Compile Include="Source\Systems\Movement\MovementComponent.cs" />
+    <Compile Include="Source\Systems\Collision\PhysicsComponent.cs" />
+    <Compile Include="Source\Systems\Movement\PushComponent.cs" />
+    <Compile Include="Source\Systems\AI\AISystem.cs" />
+    <Compile Include="Source\Systems\AI\AIComponent.cs" />
+    <Compile Include="Source\Systems\Render\RenderSystem.cs" />
+    <Compile Include="Source\Systems\Render\BasicRenderUnitComponent.cs" />
+    <Compile Include="Source\Systems\Movement\MovementPredictionComponent.cs" />
+    <Compile Include="Source\Systems\Render\RenderComponent.cs" />
+    <Compile Include="Source\Systems\Render\StaticModelComponent.cs" />
+    <Compile Include="Source\Systems\Movement\PositionComponent.cs" />
+    <Compile Include="Source\Systems\Movement\PushEntityMessage.cs" />
+    <Compile Include="Source\Systems\Movement\MovementUpdateMessage.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Terrain\shader.glsl">
+      <LogicalName>Terrain/shader.glsl</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Shaders\Rotated.glsl">
+      <LogicalName>Shaders/Rotated.glsl</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Misc\unknown_texture.png">
+      <LogicalName>Misc/unknown_texture.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Misc\face.png">
+      <LogicalName>Misc/face.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Misc\tree.png">
+      <LogicalName>Misc/tree.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Terrain\grass.png">
+      <LogicalName>Terrain/grass.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Terrain\dirt.png">
+      <LogicalName>Terrain/dirt.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Terrain\sand.png">
+      <LogicalName>Terrain/sand.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Terrain\water.png">
+      <LogicalName>Terrain/water.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Terrain\wooden_floor.png">
+      <LogicalName>Terrain/wooden_floor.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Units\zombie.png">
+      <LogicalName>Units/zombie.png</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\VPE\VPE\VPE.csproj">
+      <Project>{C11C0612-D2E4-4881-AFEA-8DB29AFF5AFD}</Project>
+      <Name>VPE</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup />
+</Project>
