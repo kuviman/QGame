@@ -81,8 +81,12 @@ namespace QGame {
 				base.KeyDown(key);
 				if (key == Key.KeypadPlus)
 					++dist;
-				else if (key == Key.KeypadMinus)
+				if (key == Key.KeypadMinus)
 					--dist;
+				if (key == Key.I) {
+					MovementPredictionComponent.Extrapolate = !MovementPredictionComponent.Extrapolate;
+					App.Title = MovementPredictionComponent.Extrapolate.ToString();
+				}
 			}
 
 			public override void Render() {

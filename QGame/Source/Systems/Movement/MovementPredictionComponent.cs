@@ -6,31 +6,35 @@ namespace QGame {
 	[Serializable]
 	class MovementPredictionComponent : Component {
 
-		const double LAG = Server.LAG * 5;
+		const double LAG = 0.2;
 
 		double prevRot = 0;
 		double nextRot = 0;
 
 		Vec3 a, b, c, d;
 
+		internal Vec3 GetPos(double k) {
+			if (k > 1)
+				return a + b + c + d + Velocity * (k - 1) * LAG;
+			else
+				return a * Math.Pow(k, 3) + b * GMath.Sqr(k) + c * k + d;
+		}
+
+		internal Vec3 GetVel(double k) {
+			if (k > 1)
+				return (3 * a + 2 * b + c) / LAG;
+			else
+				return (3 * a * GMath.Sqr(k) + 2 * b * k + c) / LAG;
+		}
+
 		public double K { get; set; }
 
 		public Vec3 Position {
-			get {
-				if (K > 1)
-					return a + b + c + d + Velocity * (K - 1) * LAG;
-				else
-					return a * Math.Pow(K, 3) + b * GMath.Sqr(K) + c * K + d;
-			}
+			get { return GetPos(K); }
 		}
 
 		public Vec3 Velocity {
-			get {
-				if (K > 1)
-					return (3 * a + 2 * b + c) / LAG;
-				else
-					return (3 * a * GMath.Sqr(K) + 2 * b * K + c) / LAG;
-			}
+			get { return GetVel(K); }
 		}
 
 		public double Rotation {
@@ -46,8 +50,11 @@ namespace QGame {
 			Entity.Get<MovementComponent>().Velocity = Velocity;
 		}
 
+		internal static bool Extrapolate = false;
+
 		public void UpdatePosition(Vec3 pos, Vec3 vel, double rot) {
-			pos += vel * LAG;
+			if (Extrapolate)
+				pos += vel * LAG;
 			d = Position;
 			c = Velocity * LAG;
 			// a = pos - b - c - d
