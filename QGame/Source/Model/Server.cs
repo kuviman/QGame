@@ -101,7 +101,9 @@ namespace QGame {
 		public Message Login(string handle, int sender) {
 			Entity e = Model.CreateEntity();
 			e.OwnerId = sender;
-			e.Set<PositionComponent>(new PositionComponent(Vec3.Zero, 0));
+			const double d = 2;
+			e.Set<PositionComponent>(new PositionComponent(
+				new Vec3(GRandom.NextDouble(-d, d), GRandom.NextDouble(-d, d), 0), 0));
 			e.Set<MovementComponent>(new MovementComponent(3));
 			e.Set<RenderComponent>(new BasicUnitRenderComponent(1, 1, new ResourcedTexture("Misc/face.png")));
 			e.Set<PhysicsComponent>(new PhysicsComponent(0.5));
