@@ -23,6 +23,7 @@ namespace QGame {
 				if (e != null) {
 					e.Get<PositionComponent>().Position = newPosition;
 					e.Get<PositionComponent>().Rotation = newRotation;
+					e.Get<MovementComponent>().Velocity = newVel;
 				} else
 					yield return new GetEntity(id);
 			}
@@ -36,6 +37,7 @@ namespace QGame {
 						else {
 							e.Get<PositionComponent>().Position = newPosition;
 							e.Get<PositionComponent>().Rotation = newRotation;
+							e.Get<MovementComponent>().Velocity = newVel;
 						}
 					}
 				} else
