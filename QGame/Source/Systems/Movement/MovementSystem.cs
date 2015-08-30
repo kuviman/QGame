@@ -6,7 +6,8 @@ namespace QGame {
 	[Serializable]
 	class MovementSystem : EntitySystem {
 		public override bool Filter(Entity entity) {
-			return entity.Get<MovementComponent>() != null && entity.Get<MovementPredictionComponent>() == null;
+			return entity.Local && entity.Get<MovementComponent>() != null
+				&& entity.Get<MovementPredictionComponent>() == null;
 		}
 
 		public override void Update(Model model, double dt) {
