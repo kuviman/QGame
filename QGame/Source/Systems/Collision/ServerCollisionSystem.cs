@@ -12,6 +12,16 @@ namespace QGame {
 			return entity.Get<PhysicsComponent>() != null && entity.Get<MovementComponent>() != null;
 		}
 
+        public override void UpdateOnce(Model model, double dt) {
+            base.UpdateOnce(model, dt);
+            foreach (var e in Entities) {
+                if (e.Get<PushComponent>() == null) {
+                    e.Set<PushComponent>(new PushComponent());
+                }
+                e.Get<PushComponent>().UpdateOnce(dt);
+            }
+        }
+
         public override void Update(Model model, double dt) {
 			base.Update(model, dt);
 			foreach (var e in Entities) {

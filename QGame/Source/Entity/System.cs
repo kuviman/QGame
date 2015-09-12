@@ -8,7 +8,9 @@ namespace QGame {
     interface IEntitySystem {
 
         void Add(Entity entity);
+        void Remove(Entity entity);
         void Update(Model model, double dt);
+        void UpdateOnce(Model mode, double dt);
         void Render(Model model);
 
     }
@@ -32,9 +34,17 @@ namespace QGame {
             }
         }
 
+        public void Remove(Entity entity) {
+            entities.Remove(entity);
+        }
+
         public abstract bool Filter(Entity entity);
 
         public virtual void Update(Model model, double dt) {
+            entities.Refresh();
+        }
+
+        public virtual void UpdateOnce(Model model, double dt) {
             entities.Refresh();
         }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Serialization;
 using System.Collections.Generic;
 using VitPro;
 using VitPro.Engine;
@@ -32,12 +33,12 @@ namespace QGame {
 			OwnerId = -1;
         }
 
-		private void Set(string name, Component component) {
+		public void Set(string name, Component component) {
             component.Entity = this;
             components[name] = component;
         }
 
-		private T Get<T>(string name) where T : Component {
+		public T Get<T>(string name) where T : Component {
             if (components.ContainsKey(name))
                 return components[name] as T;
             return null;
@@ -58,7 +59,11 @@ namespace QGame {
     [Serializable]
     class Component {
 
-        public Entity Entity { get; set; }
+        Entity _entity;
+        public Entity Entity {
+            get { return _entity; }
+            internal set { _entity = value; }
+        }
 
     }
 

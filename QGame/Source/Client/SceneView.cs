@@ -25,9 +25,6 @@ namespace QGame {
 				camera = client.Camera;
 			}
 
-
-			Vec2i startDragPos;
-
 			public override void Update(double dt) {
 				base.Update(dt);
 				Vec2 v = Vec2.Zero;
@@ -39,38 +36,22 @@ namespace QGame {
 					v.X -= 1;
 				if (Key.D.Pressed())
 					v.X += 1;
-				double up = 0;
-				if (Key.Space.Pressed())
-					up += 1;
-				if (Key.ShiftLeft.Pressed())
-					up -= 1;
 				v = Vec2.Rotate(v, camera.Rotation);
-				if (Key.ControlLeft.Pressed())
-					v *= 10;
 				if (Player != null) {
 					Player.Get<MovementComponent>().MoveDirection = new Vec3(v.X, v.Y, 0);
-					camera.Distance += up * 3 * dt;
+					var weapon = Player.Get<WeaponComponent>().Weapon;
+					if (weapon != null)
+						weapon.Firing = MouseButton.Left.Pressed();
 					camera.Position += (Player.Get<PositionComponent>().Position - camera.Position) * Math.Min(dt * 10, 1);
 				}
 			}
 
 			public override void MouseDown(MouseButton button, Vec2 position) {
 				base.MouseDown(button, position);
-				if (button == MouseButton.Left)
-					startDragPos = Mouse.Position;
 			}
 
 			public override void MouseMove(Vec2 position) {
 				base.MouseMove(position);
-				if (MouseButton.Left.Pressed()) {
-					double sens = 1.0 / 100;
-					Vec2i dv = Mouse.Position - startDragPos;
-					camera.Rotation -= dv.X * sens;
-					camera.UpAngle = GMath.Clamp(camera.UpAngle + dv.Y * sens, -Math.PI / 2, -Math.PI / 4);
-					//					Mouse.Position = startDragPos;
-				}
-				startDragPos = Mouse.Position;
-
 				if (client.Player != null)
 					client.Player.Get<PositionComponent>().Rotation = (Mouse.Position - new Vec2(App.Width, App.Height) / 2).Arg + camera.Rotation;
 			}
@@ -83,10 +64,18 @@ namespace QGame {
 					++dist;
 				if (key == Key.KeypadMinus)
 					--dist;
+                if (key == Key.H) {
+                    if (Player != null) {
+                        client.Send(new Messages.ChangeHealth(Player, 1000));
+                    }
+                }
 				if (key == Key.I) {
 					MovementPredictionComponent.Extrapolate = !MovementPredictionComponent.Extrapolate;
 					App.Title = MovementPredictionComponent.Extrapolate.ToString();
 				}
+                if (key == Key.R) {
+                    client.Send(new Messages.Login("kuviman"));
+                }
 			}
 
 			public override void Render() {

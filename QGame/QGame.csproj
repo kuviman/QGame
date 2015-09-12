@@ -71,25 +71,35 @@
     <Compile Include="Source\Client\_Def.cs" />
     <Compile Include="Source\Client\View.cs" />
     <Compile Include="Source\Client\SceneView.cs" />
-    <Compile Include="Source\Systems\Movement\MovementSystem.cs" />
-    <Compile Include="Source\Systems\Movement\MovementBroadcastingSystem.cs" />
-    <Compile Include="Source\Systems\Movement\MovementPredictionSystem.cs" />
     <Compile Include="Source\Systems\Collision\ServerCollisionSystem.cs" />
     <Compile Include="Source\Systems\Collision\TerrainCollisionSystem.cs" />
     <Compile Include="Source\Systems\Collision\CollisionSystem.cs" />
-    <Compile Include="Source\Systems\Movement\MovementComponent.cs" />
     <Compile Include="Source\Systems\Collision\PhysicsComponent.cs" />
-    <Compile Include="Source\Systems\Movement\PushComponent.cs" />
     <Compile Include="Source\Systems\AI\AISystem.cs" />
     <Compile Include="Source\Systems\AI\AIComponent.cs" />
-    <Compile Include="Source\Systems\Render\RenderSystem.cs" />
-    <Compile Include="Source\Systems\Render\BasicRenderUnitComponent.cs" />
-    <Compile Include="Source\Systems\Movement\MovementPredictionComponent.cs" />
-    <Compile Include="Source\Systems\Render\RenderComponent.cs" />
-    <Compile Include="Source\Systems\Render\StaticModelComponent.cs" />
-    <Compile Include="Source\Systems\Movement\PositionComponent.cs" />
-    <Compile Include="Source\Systems\Movement\PushEntityMessage.cs" />
-    <Compile Include="Source\Systems\Movement\MovementUpdateMessage.cs" />
+    <Compile Include="Source\Systems\BasicRender\RenderSystem.cs" />
+    <Compile Include="Source\Systems\BasicRender\BasicRenderUnitComponent.cs" />
+    <Compile Include="Source\Systems\BasicRender\RenderComponent.cs" />
+    <Compile Include="Source\Systems\BasicRender\StaticModelComponent.cs" />
+    <Compile Include="Source\Systems\Movement\BroadcastingSystem.cs" />
+    <Compile Include="Source\Systems\Movement\Component.cs" />
+    <Compile Include="Source\Systems\Movement\Prediction\Component.cs" />
+    <Compile Include="Source\Systems\Movement\Prediction\System.cs" />
+    <Compile Include="Source\Systems\Movement\System.cs" />
+    <Compile Include="Source\Systems\Movement\Pushing\Component.cs" />
+    <Compile Include="Source\Systems\Movement\Pushing\Message.cs" />
+    <Compile Include="Source\Systems\Movement\Message.cs" />
+    <Compile Include="Source\Entity\PositionComponent.cs" />
+    <Compile Include="Source\Systems\Combat\Health\Component.cs" />
+    <Compile Include="Source\Systems\Combat\Health\RenderSystem.cs" />
+    <Compile Include="Source\Systems\Combat\Weapon\Component.cs" />
+    <Compile Include="Source\Systems\Combat\Weapon\Weapon.cs" />
+    <Compile Include="Source\Systems\Combat\Weapon\Message.cs" />
+    <Compile Include="Content\Sword.cs" />
+    <Compile Include="Source\Systems\Combat\Weapon\RenderSystem.cs" />
+    <Compile Include="Source\Systems\Combat\Weapon\System.cs" />
+    <Compile Include="Source\Systems\Combat\Health\DamageMessage.cs" />
+    <Compile Include="Source\Systems\Combat\Health\System.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Terrain\shader.glsl">
@@ -125,6 +135,9 @@
     <EmbeddedResource Include="Resources\Units\zombie.png">
       <LogicalName>Units/zombie.png</LogicalName>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Weapons\sword.png">
+      <LogicalName>Weapons/sword.png</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\VPE\VPE\VPE.csproj">
@@ -153,4 +166,14 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Source\Systems\Combat\" />
+    <Folder Include="Source\Systems\Movement\Prediction\" />
+    <Folder Include="Source\Systems\Movement\Pushing\" />
+    <Folder Include="Source\Systems\Combat\Health\" />
+    <Folder Include="Source\Systems\Combat\Weapon\" />
+    <Folder Include="Content\" />
+    <Folder Include="Resources\Weapons\" />
+  </ItemGroup>
 </Project>

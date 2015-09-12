@@ -60,6 +60,28 @@ namespace QGame {
                 system.Add(entity);
         }
 
+        public void Remove(Entity entity) {
+            entityById.Remove(entity.Id);
+            foreach (var system in EntitySystems)
+                system.Remove(entity);
+        }
+
+        public void Remove(long entityId) {
+            if (entityById.ContainsKey(entityId))
+                Remove(entityById[entityId]);
+        }
+
+        public void RemoveOwnedBy(long who) {
+            List<Entity> entitiesToRemove = new List<Entity>();
+            foreach (var e in Entities)
+                if (e.OwnerId == who) {
+                    entitiesToRemove.Add(e);
+                }
+            foreach (var e in entitiesToRemove) {
+                Remove(e);
+            }
+        }
+
 		public void Add(IEntitySystem system) {
 			foreach (var entity in Entities)
 				system.Add(entity);
@@ -75,6 +97,11 @@ namespace QGame {
 			foreach (var system in EntitySystems)
 				system.Update(this, dt);
 		}
+
+        public void UpdateOnce(double dt) {
+            foreach (var system in EntitySystems)
+                system.UpdateOnce(this, dt);
+        }
 
     }
 

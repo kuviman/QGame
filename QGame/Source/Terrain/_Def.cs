@@ -82,6 +82,7 @@ namespace QGame {
             RenderState.Pop();
             RenderState.Pop();
             RenderWater(fromX, fromY, toX, toY);
+            Draw.ClearDepth();
         }
 
         void RenderWater(int fromX, int fromY, int toX, int toY) {

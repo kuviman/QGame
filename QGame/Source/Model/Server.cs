@@ -18,21 +18,15 @@ namespace QGame {
 
 			Model.Add(new AISystem());
 			Model.Add(new MovementSystem());
-			Model.Add(new TerrainCollisionSystem());
 			Model.Add(new CollisionSystem());
 			Model.Add(new ServerCollisionSystem());
+			Model.Add(new TerrainCollisionSystem());
 			Model.Add(new MovementBroadcastingSystem());
+			Model.Add(new WeaponSystem());
+            Model.Add(new HealthSystem());
 
 			for (int i = 0; i < 10; i++) {
-				var z = Model.CreateEntity();
-				z.Set<RenderComponent>(new BasicUnitRenderComponent(1.2, 1.2, new ResourcedTexture("Units/zombie.png")));
-				z.Set<AIComponent>(new AIComponent());
-				z.Set<PhysicsComponent>(new PhysicsComponent(0.6));
-				z.Set<PositionComponent>(new PositionComponent(
-					new Vec3(GRandom.NextDouble(-10, 10), GRandom.NextDouble(-10, 10), 0),
-					GRandom.NextDouble(0, 2 * Math.PI)));
-				z.Set<MovementComponent>(new MovementComponent(2));
-				Model.Add(z);
+                AddZombie();
 			}
 
 			var terrain = Model.Terrain;
@@ -73,16 +67,57 @@ namespace QGame {
 			App.OnUpdate += Update;
 		}
 
+        public void Run() {
+            var timer = new Timer();
+            while (true) {
+                Update(timer.Tick());
+            }
+        }
+
+        public override void Stop() {
+            base.Stop();
+            App.OnUpdate -= Update;
+        }
+
 		const double TICK_TIME = 0.01;
 		double uncalcedTime;
+
+        const int MAX_TICKS_PER_UPDATE = 50;
+
+        void AddZombie() {
+            var z = Model.CreateEntity();
+            z.Set<RenderComponent>(new BasicUnitRenderComponent(1.2, 1.2, new ResourcedTexture("Units/zombie.png")));
+            z.Set<AIComponent>(new AIComponent());
+            z.Set<PhysicsComponent>(new PhysicsComponent(0.6));
+            z.Set<PositionComponent>(new PositionComponent(
+                new Vec3(GRandom.NextDouble(-10, 10), GRandom.NextDouble(-10, 10), 0),
+                GRandom.NextDouble(0, 2 * Math.PI)));
+            z.Set<MovementComponent>(new MovementComponent(2));
+            z.Set<HealthComponent>(new HealthComponent(100));
+            if (GRandom.Probable(0.7)) {
+                var w = new Sword();
+                w.Firing = true;
+                z.Set<WeaponComponent>(new WeaponComponent(w));
+            }
+            Model.Add(z);
+        }
 
 		void Update(double dt) {
 			Handle();
 			uncalcedTime += dt;
-			while (uncalcedTime >= TICK_TIME) {
+            double curTime = 0;
+            int ticks = 0;
+			while (uncalcedTime >= TICK_TIME && ticks < MAX_TICKS_PER_UPDATE) {
+                curTime += TICK_TIME;
 				uncalcedTime -= TICK_TIME;
 				Model.Update(TICK_TIME);
+                ++ticks;
 			}
+            Model.UpdateOnce(curTime);
+
+            //if (System.Linq.Enumerable.Count(Model.Entities) < 20) {
+            //    AddZombie();
+            //}
 		}
 
 		protected override IEnumerable<Message> Handle(Message message) {
@@ -98,6 +133,17 @@ namespace QGame {
 			}
 		}
 
+        public override void Disconnect(int who) {
+            base.Disconnect(who);
+            Model.RemoveOwnedBy(who);
+            Broadcast(new Messages.UserDisconnected(who));
+        }
+
+        public void RemoveEntity(Entity e) {
+            Model.Remove(e);
+            Broadcast(new Messages.RemoveEntity(e));
+        }
+
 		public Message Login(string handle, int sender) {
 			Entity e = Model.CreateEntity();
 			e.OwnerId = sender;
@@ -107,6 +153,9 @@ namespace QGame {
 			e.Set<MovementComponent>(new MovementComponent(3));
 			e.Set<RenderComponent>(new BasicUnitRenderComponent(1, 1, new ResourcedTexture("Misc/face.png")));
 			e.Set<PhysicsComponent>(new PhysicsComponent(0.5));
+			e.Set<HealthComponent>(new HealthComponent(75));
+			e.Set<WeaponComponent>(new WeaponComponent(new Sword()));
+			e.Get<HealthComponent>().Health *= 0.8;
 			return new Messages.LogicSuccess(e);
 		}
 

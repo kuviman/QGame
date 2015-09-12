@@ -28,12 +28,15 @@ namespace QGame {
 			Camera.Distance = 6;
 
 			Model = new Model(this);
-            Console.WriteLine(1);
-			Model.Add(new TerrainCollisionSystem());
-			Model.Add(new CollisionSystem());
-			Model.Add(new RenderSystem());
 			Model.Add(new MovementSystem());
 			Model.Add(new MovementPredictionSystem());
+			Model.Add(new CollisionSystem());
+			Model.Add(new TerrainCollisionSystem());
+            Model.Add(new WeaponSystem());
+            Model.Add(new RenderSystem());
+            Model.Add(new WeaponRenderSystem());
+			Model.Add(new HealthRenderSystem());
+            Model.Add(new HealthSystem());
 
 			string handle = "kuviman";
 			Send(new Messages.Login(handle));
@@ -41,13 +44,24 @@ namespace QGame {
 			App.OnUpdate += Update;
 		}
 
+        public override void Stop() {
+            base.Stop();
+            App.OnUpdate -= Update;
+        }
+
 		public Camera Camera { get; internal set; }
 
 		public Entity Player { get; internal set; }
 
+        internal Exception disconnectedReason;
+
 		double nextUpd = 0;
 		public void Update(double dt) {
-			Handle();
+            try {
+                Handle();
+            } catch (VitPro.Net.NetException e) {
+                disconnectedReason = e;
+            }
 			if (Player == null)
 				return;
 			nextUpd -= dt;
@@ -66,6 +80,7 @@ namespace QGame {
 				}
 			}
 			Model.Update(dt);
+            Model.UpdateOnce(dt);
 		}
 
 	}

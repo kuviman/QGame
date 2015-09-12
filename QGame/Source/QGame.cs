@@ -8,10 +8,14 @@ using UI = VitPro.Engine.UI;
 namespace QGame {
 
 	class SplitScreen : UI.State {
-		UI.Element s1, s2;
+		UI.StateFrame s1, s2;
 		public SplitScreen(string ip, int port) {
-			s1 = new UI.StateFrame(new ClientView(ip, port));
-			s2 = new UI.StateFrame(new ClientView(ip, port));
+            var c1 = new ClientView(ip, port);
+            OnClose += c1.Close;
+			s1 = new UI.StateFrame(c1);
+            var c2 = new ClientView(ip, port);
+            OnClose += c2.Close;
+			s2 = new UI.StateFrame(c2);
 			s1.Origin = s2.Origin = Vec2.Zero;
 			Frame.Add(s1);
 			Frame.Add(s2);
@@ -29,40 +33,70 @@ namespace QGame {
 			Draw.Line(RenderState.Width / 2, 0, RenderState.Width / 2, RenderState.Height, 3);
 			RenderState.Pop();
 		}
+        public override void KeyDown(Key key) {
+            base.KeyDown(key);
+            if (key == Key.Escape)
+                Close();
+        }
 	}
 
+    class Menu : UI.State {
+        public Menu() {
+            Zoom = 1.5;
+            BackgroundColor = Color.Sky;
+            var list = new UI.ElementList();
+            int port = 7777;
+            list.Add(new UI.Button("Start", () => {
+                var server = new Server(port);
+                var view = new ClientView("127.0.0.1", port);
+                server.Start();
+                view.OnClose += server.Stop;
+                PushState(view);
+            }));
+            list.Add(new UI.Button("Start splitscreen", () => {
+                var server = new Server(port);
+                var view = new SplitScreen("127.0.0.1", port);
+                server.Start();
+                view.OnClose += server.Stop;
+                PushState(view);
+            }));
+            var l2 = new UI.ElementList();
+            l2.Horizontal = true;
+            var ipInput = new UI.TextInput(200);
+            l2.Add(ipInput);
+            l2.Add(new UI.Button("Connect", () => {
+                PushState(new ClientView(ipInput.Value, port));
+            }));
+            list.Add(l2);
+            list.Anchor = list.Origin = new Vec2(0.5, 0.5);
+            Frame.Add(list);
+        }
+    }
+
 	class QGame {
-        static ILog logger = LogManager.GetLogger(typeof(QGame));
+        static ILog log = LogManager.GetLogger(typeof(QGame));
 
         static void Main(string[] args) {
-            logger.Info("Parsing command line arguments");
-            string ip = "127.0.0.1";
-            int port = 7777;
-            bool startServer = true;
-            bool fullscreen = false;
-			bool splitscreen = false;
+            App.Init();
+            log.Info("Parsing command line arguments");
+            bool startServer = false;
+            string ip = null;
             new OptionSet()
-				.Add("splitscreen", (string val) => { splitscreen = val != null; })
-                .Add("fullscreen", (string val) => { fullscreen = val != null; })
-                .Add("connect=", (string val) => {
-                    if (val.Contains(":")) {
-                        var ipAndPort = val.Split(':');
-                        ip = ipAndPort[0];
-                        port = int.Parse(ipAndPort[1]);
-                    } else
-                        ip = val;
-                    startServer = false;
-                }).Parse(args);
+                .Add("server", (string val) => { startServer = val != null; })
+                .Add("connect=", (string val) => { ip = val; })
+                .Parse(args);
             if (startServer) {
-                logger.Info("Starting server");
-				new Server(port).Start();
+                log.Info("Starting server");
+                new Server(7777).Run();
+            } else {
+                log.Info("Starting the game");
+                State state;
+                if (ip == null)
+                    state = new Menu();
+                else
+                    state = new ClientView(ip, 7777);
+                App.Run(state);
             }
-            logger.Info("Starting the game");
-            App.Fullscreen = fullscreen;
-			if (splitscreen)
-            	App.Run(new SplitScreen(ip, port));
-			else
-				App.Run(new ClientView(ip, port));
         }
 
 	}

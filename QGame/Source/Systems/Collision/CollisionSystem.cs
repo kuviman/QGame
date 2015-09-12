@@ -6,8 +6,8 @@ using VitPro.Engine;
 namespace QGame {
 
     class CollisionSystem : IEntitySystem {
-        List<Entity> staticEntitites = new List<Entity>();
-        List<Entity> mobileEntities = new List<Entity>();
+        HashSet<Entity> staticEntitites = new HashSet<Entity>();
+        HashSet<Entity> mobileEntities = new HashSet<Entity>();
 
         public void Add(Entity entity) {
 			if (entity.Get<PhysicsComponent>() == null)
@@ -19,6 +19,12 @@ namespace QGame {
 			else
                 mobileEntities.Add(entity);
         }
+
+        public void Remove(Entity entity) {
+            staticEntitites.Remove(entity);
+            mobileEntities.Remove(entity);
+        }
+
         public void Update(Model model, double dt) {
 			foreach (var entity in mobileEntities) {
 				if (!entity.Local)
@@ -35,6 +41,7 @@ namespace QGame {
                 }
 			}
         }
+        public void UpdateOnce(Model model, double dt) { }
         public void Render(Model model) { }
     }
 
