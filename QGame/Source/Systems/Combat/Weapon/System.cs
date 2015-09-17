@@ -29,9 +29,9 @@ namespace QGame {
                 foreach (var e in Entities) {
 					var msg = new Messages.WeaponUpdate(e);
 					if (model.Server != null)
-						model.Server.Broadcast(msg);
+						model.Server.AddToBroadcast(msg);
 					if (model.Client != null)
-						model.Client.Send(msg);
+						model.Client.AddToSend(msg);
                 }
             }
         }

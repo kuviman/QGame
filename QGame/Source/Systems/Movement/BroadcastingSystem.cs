@@ -14,7 +14,7 @@ namespace QGame {
             if (nextBroadcast < 0) {
                 nextBroadcast = Server.LAG;
                 foreach (var e in Entities) {
-                    model.Server.Broadcast(new Messages.MovementUpdate(e));
+                    model.Server.AddToBroadcast(new Messages.MovementUpdate(e));
                 }
             }
         }

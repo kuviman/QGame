@@ -55,6 +55,11 @@ namespace QGame {
 
         internal Exception disconnectedReason;
 
+        List<Message> messagesToSend = new List<Message>();
+        public void AddToSend(Message message) {
+            messagesToSend.Add(message);
+        }
+
 		double nextUpd = 0;
 		public void Update(double dt) {
             try {
@@ -63,12 +68,14 @@ namespace QGame {
                 disconnectedReason = e;
             }
 			if (Player == null)
-				return;
+                return;
+            Model.Update(dt);
+            Model.UpdateOnce(dt);
 			nextUpd -= dt;
 			if (nextUpd < 0) {
 				nextUpd = Server.LAG;
 				Send(new Messages.QueryEntities());
-				Send(new Messages.MovementUpdate(Player));
+				AddToSend(new Messages.MovementUpdate(Player));
 				var pos = Player.Get<PositionComponent>().Position;
 				Vec2i? unloaded = Model.Terrain.ClosestUnloaded(
 					(int)pos.X, (int)pos.Y, 20);
@@ -77,10 +84,10 @@ namespace QGame {
 					int y = unloaded.Value.Y;
 					const int d = 5;
 					Send(new Messages.QueryTerrain(x - d, y - d, x + d, y + d));
-				}
+                }
+                Send(new MessageList(messagesToSend));
+                messagesToSend = new List<Message>();
 			}
-			Model.Update(dt);
-            Model.UpdateOnce(dt);
 		}
 
 	}

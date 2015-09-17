@@ -102,6 +102,12 @@ namespace QGame {
             Model.Add(z);
         }
 
+        double nextBroadcast = 0;
+        List<Message> messagesToBroadcast = new List<Message>();
+        public void AddToBroadcast(Message message) {
+            messagesToBroadcast.Add(message);
+        }
+
 		void Update(double dt) {
 			Handle();
 			uncalcedTime += dt;
@@ -118,6 +124,13 @@ namespace QGame {
             //if (System.Linq.Enumerable.Count(Model.Entities) < 20) {
             //    AddZombie();
             //}
+
+            nextBroadcast -= dt;
+            if (nextBroadcast < 0) {
+                nextBroadcast = LAG;
+                Broadcast(new MessageList(messagesToBroadcast));
+                messagesToBroadcast = new List<Message>();
+            }
 		}
 
 		protected override IEnumerable<Message> Handle(Message message) {
@@ -151,7 +164,7 @@ namespace QGame {
 			e.Set<PositionComponent>(new PositionComponent(
 				new Vec3(GRandom.NextDouble(-d, d), GRandom.NextDouble(-d, d), 0), 0));
 			e.Set<MovementComponent>(new MovementComponent(3));
-			e.Set<RenderComponent>(new BasicUnitRenderComponent(1, 1, new ResourcedTexture("Misc/face.png")));
+			e.Set<RenderComponent>(new BasicUnitRenderComponent(1, 1, new ResourcedTexture("Units/player.png")));
 			e.Set<PhysicsComponent>(new PhysicsComponent(0.5));
 			e.Set<HealthComponent>(new HealthComponent(75));
 			e.Set<WeaponComponent>(new WeaponComponent(new Sword()));

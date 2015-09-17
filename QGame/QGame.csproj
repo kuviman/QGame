@@ -138,6 +138,9 @@
     <EmbeddedResource Include="Resources\Weapons\sword.png">
       <LogicalName>Weapons/sword.png</LogicalName>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Units\player.png">
+      <LogicalName>Units/player.png</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\VPE\VPE\VPE.csproj">

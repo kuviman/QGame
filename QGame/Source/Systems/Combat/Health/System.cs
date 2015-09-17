@@ -30,7 +30,7 @@ namespace QGame {
             if (nextBroadcast < 0) {
                 nextBroadcast = Server.LAG;
                 foreach (var e in Entities) {
-                    model.Server.Broadcast(Messages.UpdateComponent.Create(e.Get<HealthComponent>()));
+                    model.Server.AddToBroadcast(Messages.UpdateComponent.Create(e.Get<HealthComponent>()));
                 }
             }
         }

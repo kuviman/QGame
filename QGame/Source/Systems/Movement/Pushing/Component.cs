@@ -32,12 +32,12 @@ namespace QGame {
 		}
 
         public void UpdateOnce(double dt) {
-            if (!Entity.Local && nextSend < 0) {
+            if (!Entity.Local && nextSend < 0 && pushV.Length != 0) {
                 nextSend = Server.LAG;
                 if (Entity.Model.Server != null)
                     Entity.Model.Server.SendTo(new Messages.PushEntity(Entity, pushV), Entity.OwnerId);
                 else
-                    Entity.Model.Client.Send(new Messages.PushEntity(Entity, pushV));
+                    Entity.Model.Client.AddToSend(new Messages.PushEntity(Entity, pushV));
                 pushV = Vec3.Zero;
             }
         }

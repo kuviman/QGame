@@ -77,9 +77,11 @@ namespace QGame {
         [Serializable]
         public class QueryEntities : Message {
 			public override IEnumerable<Message> Handle(Model model) {
+                List<Message> queries = new List<Message>();
 				foreach (var entity in model.Entities) {
-					yield return new CheckEntity(entity);
+					queries.Add(new CheckEntity(entity));
                 }
+                yield return new MessageList(queries);
             }
         }
 

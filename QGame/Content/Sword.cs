@@ -25,7 +25,7 @@ namespace QGame {
             RenderState.RotateX(-0.5);
             RenderState.Rotate(Entity.Get<PositionComponent>().Rotation);
 			if (Firing)
-				RenderState.Rotate(Math.Sin(swing * 2 * Math.PI) * 0.4);
+				RenderState.Rotate(Math.Sin(swing * 2 * Math.PI) * 0.8);
 			RenderState.Translate(0.5, 0);
 			RenderState.Scale(1, 0.5);
 			RenderState.Origin(0, 0.5);
