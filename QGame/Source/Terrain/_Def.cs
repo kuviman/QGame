@@ -61,7 +61,7 @@ namespace QGame {
 
         public void Render(int fromX, int fromY, int toX, int toY) {
             RenderState.Push();
-            shader.Prepare();
+            Resources.shader.Prepare();
             RenderState.Push();
             for (int i = fromX; i < toX; i++)
                 for (int j = fromY; j < toY; j++) {
@@ -73,7 +73,7 @@ namespace QGame {
                     RenderState.Set("color10", GetColor(i + 1, j));
                     RenderState.Set("color11", GetColor(i + 1, j + 1));
                     RenderState.Set("color01", GetColor(i, j + 1));
-                    shader.RenderPolygon(
+                    Resources.shader.RenderPolygon(
                         GetVec(i, j),
                         GetVec(i + 1, j),
                         GetVec(i + 1, j + 1),
@@ -102,7 +102,10 @@ namespace QGame {
         }
 
         static ResourcedTexture waterTexture = new ResourcedTexture("Terrain/water.png");
-        static Shader shader = new Shader(Resource.String("Terrain/shader.glsl"));
+
+		class Resources {
+        	public static Shader shader = new Shader(Resource.String("Terrain/shader.glsl"));
+		}
 
 		Color GetColor(int i, int j) {
 			return Color.White;
