@@ -77,7 +77,7 @@ namespace QGame {
         static ILog log = LogManager.GetLogger(typeof(QGame));
 
         static void Main(string[] args) {
-            App.Init();
+			log4net.Config.BasicConfigurator.Configure();
             log.Info("Parsing command line arguments");
             bool startServer = false;
             string ip = null;
