@@ -45,7 +45,7 @@ namespace QGame {
             Zoom = 1.5;
             BackgroundColor = Color.Sky;
             var list = new UI.ElementList();
-            int port = 7777;
+            int port = 11000;
             list.Add(new UI.Button("Start", () => {
                 var server = new Server(port);
                 var view = new ClientView("127.0.0.1", port);
@@ -87,14 +87,14 @@ namespace QGame {
                 .Parse(args);
             if (startServer) {
                 log.Info("Starting server");
-                new Server(7777).Run();
+                new Server(11000).Run();
             } else {
                 log.Info("Starting the game");
                 State state;
                 if (ip == null)
                     state = new Menu();
                 else
-                    state = new ClientView(ip, 7777);
+                    state = new ClientView(ip, 11000);
                 App.Run(state);
             }
         }
