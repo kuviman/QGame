@@ -28,18 +28,17 @@ namespace QGame {
 
         [Serializable]
         public class UpdateTerrain : Message {
-			[NonSerialized]
             Dictionary<Vec2i, Terrain.Vertex> q = new Dictionary<Vec2i, Terrain.Vertex>();
             public Terrain.Vertex this[int i, int j] {
                 get { return q[new Vec2i(i, j)]; }
                 set { q[new Vec2i(i, j)] = value; }
             }
-//			public override IEnumerable<Message> Handle(Model model) {
-//                foreach (var entry in q) {
-//                    model.Terrain[entry.Key.X, entry.Key.Y] = entry.Value;
-//                }
-//                return null;
-//            }
+			public override IEnumerable<Message> Handle(Model model) {
+                foreach (var entry in q) {
+                    model.Terrain[entry.Key.X, entry.Key.Y] = entry.Value;
+                }
+                return null;
+            }
         }
 
     }
