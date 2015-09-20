@@ -5,11 +5,9 @@ using VitPro;
 using VitPro.Engine;
 
 namespace QGame {
-
-    [Serializable]
+	
     class Entity {
-
-		[NonSerialized]
+		
 		bool _local;
 		public bool Local {
 			get { return _local; }
@@ -18,7 +16,6 @@ namespace QGame {
 
 		public int OwnerId { get; internal set; }
 
-        [NonSerialized]
 		Model _model;
 		public Model Model {
 			get { return _model; }
@@ -54,11 +51,34 @@ namespace QGame {
 
         Dictionary<string, Component> components = new Dictionary<string, Component>();
 
+		[Serializable]
+		public class Proto {
+			int ownerId;
+			long id;
+			Dictionary<string,Component> components = new Dictionary<string, Component>();
+			public Proto(Entity e) {
+				foreach (var c in e.components) {
+					components[c.Key] = c.Value;
+				}
+				ownerId = e.OwnerId;
+				id = e.Id;
+			}
+			public Entity Reconstruct() {
+				Entity e = new Entity(id);
+				e.Local = false;
+				e.OwnerId = ownerId;
+				foreach (var c in components)
+					e.Set(c.Key, c.Value);
+				return e;
+			}
+		}
+
     }
 
     [Serializable]
     class Component {
 
+		[NonSerialized]
         Entity _entity;
         public Entity Entity {
             get { return _entity; }

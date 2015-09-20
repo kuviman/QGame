@@ -104,14 +104,15 @@ namespace QGame {
 
         [Serializable]
         public class NewEntity : Message {
-            Entity entity;
+			Entity.Proto entity;
             public NewEntity(Entity entity) {
-                this.entity = entity;
+				this.entity = new Entity.Proto(entity);
 			}
 			public override IEnumerable<Message> Handle(Model model) {
-				if (model.FindEntity(entity.Id) != null)
+				var e = entity.Reconstruct();
+				if (model.FindEntity(e.Id) != null)
                     return null;
-                model.Add(entity);
+                model.Add(e);
                 return null;
             }
         }

@@ -20,14 +20,15 @@ namespace QGame {
 
 		[Serializable]
 		public class LogicSuccess : Message {
-			Entity entity;
+			Entity.Proto entity;
 			public LogicSuccess(Entity entity) {
-				this.entity = entity;
+				this.entity = new Entity.Proto(entity);
 			}
 			public override IEnumerable<Message> HandleClient(Client client) {
-				entity.Local = true;
-				client.Model.Add(entity);
-				client.Player = entity;
+				var e = entity.Reconstruct();
+				e.Local = true;
+				client.Model.Add(e);
+				client.Player = e;
 				return null;
 			}
 		}
