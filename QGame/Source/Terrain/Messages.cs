@@ -28,15 +28,19 @@ namespace QGame {
 
         [Serializable]
         public class UpdateTerrain : Message {
-            Dictionary<Vec2i, Terrain.Vertex> q = new Dictionary<Vec2i, Terrain.Vertex>();
+//            Dictionary<Vec2i, Terrain.Vertex> q = new Dictionary<Vec2i, Terrain.Vertex>();
+			Vec2i pos;
+			Terrain.Vertex vertex;
             public Terrain.Vertex this[int i, int j] {
-                get { return q[new Vec2i(i, j)]; }
-                set { q[new Vec2i(i, j)] = value; }
+//                get { return q[new Vec2i(i, j)]; }
+//                set { q[new Vec2i(i, j)] = value; }
+				set { pos = new Vec2i(i, j); vertex = value; }
             }
 			public override IEnumerable<Message> Handle(Model model) {
-                foreach (var entry in q) {
-                    model.Terrain[entry.Key.X, entry.Key.Y] = entry.Value;
-                }
+//                foreach (var entry in q) {
+//                    model.Terrain[entry.Key.X, entry.Key.Y] = entry.Value;
+//                }
+				model.Terrain[pos.X, pos.Y] = vertex;
                 return null;
             }
         }
