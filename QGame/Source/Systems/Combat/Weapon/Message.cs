@@ -4,15 +4,14 @@ using VitPro;
 namespace QGame {
 
 	partial class Messages {
-
 		
 		public class WeaponUpdate : Message {
 
 			[Serialize]
-			long entityId;
+			public long entityId;
 
 			[Serialize]
-			Weapon weapon;
+			public Weapon weapon;
 
             WeaponUpdate() { }
 
