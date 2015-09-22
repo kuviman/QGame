@@ -3,7 +3,7 @@ using VitPro;
 
 namespace QGame {
 
-	[Serializable]
+	
 	class AIComponent : Component {
 
 		public void Update(double dt) {

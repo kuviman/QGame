@@ -4,11 +4,17 @@ using VitPro.Engine;
 
 namespace QGame {
 
-    [Serializable]
+    
     class StaticModelComponent : RenderComponent {
+		
+		[Serialize]
+		public double w;
 
-        double w, h;
-        ResourcedTexture texture;
+		[Serialize]
+		public double h;
+
+		[Serialize]
+        public ResourcedTexture texture;
 
         public StaticModelComponent(double w, double h, ResourcedTexture texture) {
             this.w = w;

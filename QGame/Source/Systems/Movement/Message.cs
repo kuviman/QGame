@@ -6,12 +6,22 @@ namespace QGame {
 
 	partial class Messages {
 
-		[Serializable]
+		
 		public class MovementUpdate : Message {
-			long id;
-			Vec3 newPosition;
-			Vec3 newVel;
-			double newRotation;
+
+			[Serialize]
+			public long id;
+
+			[Serialize]
+			public Vec3 newPosition;
+
+			[Serialize]
+			public Vec3 newVel;
+
+			[Serialize]
+			public double newRotation;
+
+            MovementUpdate() { }
 			public MovementUpdate(Entity entity) {
 				id = entity.Id;
 				newPosition = entity.Get<PositionComponent>().Position;

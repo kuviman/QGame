@@ -2,8 +2,7 @@
 using VitPro;
 
 namespace QGame {
-
-	[Serializable]
+	
 	class MovementPredictionComponent : Component {
 
 		const double LAG = 0.2;

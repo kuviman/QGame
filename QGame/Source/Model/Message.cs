@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using VitPro;
 
 namespace QGame {
 
-	[Serializable]
+	
 	class Message : VitPro.Net.Message {
 		public virtual IEnumerable<Message> Handle(Model model) { 
 			return null; 
@@ -16,9 +17,13 @@ namespace QGame {
 		}
 	}
 
-    [Serializable]
+    
     class MessageList : Message {
-        List<Message> messages;
+
+		[Serialize]
+        public List<Message> messages;
+
+        MessageList() { }
 
         public MessageList(IEnumerable<Message> messages) {
             this.messages = new List<Message>(messages);

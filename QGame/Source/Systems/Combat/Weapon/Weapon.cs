@@ -3,14 +3,13 @@ using VitPro;
 
 namespace QGame {
 	
-	[Serializable]
 	class Weapon {
-
-        [NonSerialized]
+		
 		internal WeaponComponent component;
 
 		public Entity Entity { get { return component.Entity; } }
 
+		[Serialize]
 		public bool Firing { get; set; }
 
 		public virtual void Update(double dt) {}

@@ -2,8 +2,7 @@
 using VitPro;
 
 namespace QGame {
-
-	[Serializable]
+	
 	class MovementSystem : EntitySystem {
 		public override bool Filter(Entity entity) {
 			return entity.Local && entity.Get<MovementComponent>() != null

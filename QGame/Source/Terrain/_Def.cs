@@ -9,11 +9,17 @@ namespace QGame {
 
         const int CHUNK_SIZE = 16;
 
-        [Serializable]
 		public struct Vertex {
+			
+			[Serialize]
             public ResourcedTexture Texture { get; set; }
+
+			[Serialize]
 			public double Height { get; set; }
+
+			[Serialize]
             public double WaterHeight { get; set; }
+
 		}
 
 		Dictionary<Vec2i, Vertex[,]> map = new Dictionary<Vec2i,Vertex[,]>();

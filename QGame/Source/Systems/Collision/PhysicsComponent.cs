@@ -3,13 +3,14 @@ using VitPro;
 
 namespace QGame {
 
-	[Serializable]
+	
 	class PhysicsComponent : Component {
 		
 		public PhysicsComponent(double size) {
 			Size = size;
 		}
 
+		[Serialize]
 		public double Size { get; set; }
 
 	}

@@ -3,12 +3,14 @@ using VitPro;
 using VitPro.Engine;
 
 namespace QGame {
-
-	[Serializable]
+	
 	class Sword : Weapon {
-
-		[NonSerialized]
+		
 		double swing;
+
+		public Sword() {
+			Damage = 10;
+		}
 
 		public override void Update(double dt) {
 			base.Update(dt);
@@ -33,7 +35,8 @@ namespace QGame {
 			RenderState.Pop();
 		}
 
-        double damage = 10;
+		[Serialize]
+		public double Damage { get; set; }
 
         public override void CheckFire() {
             base.CheckFire();
@@ -53,9 +56,9 @@ namespace QGame {
                         if ((myPos - ePos).Length > 2)
                             continue;
                         if (Entity.Model.Client == null)
-                            e.Get<HealthComponent>().Health -= damage;
+                            e.Get<HealthComponent>().Health -= Damage;
                         else
-                            Entity.Model.Client.Send(new Messages.ChangeHealth(e, -damage));
+                            Entity.Model.Client.Send(new Messages.ChangeHealth(e, -Damage));
                     }
                 }
             }

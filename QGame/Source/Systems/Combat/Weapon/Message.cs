@@ -5,11 +5,16 @@ namespace QGame {
 
 	partial class Messages {
 
-		[Serializable]
+		
 		public class WeaponUpdate : Message {
 
+			[Serialize]
 			long entityId;
+
+			[Serialize]
 			Weapon weapon;
+
+            WeaponUpdate() { }
 
 			public WeaponUpdate(Entity entity) {
 				entityId = entity.Id;

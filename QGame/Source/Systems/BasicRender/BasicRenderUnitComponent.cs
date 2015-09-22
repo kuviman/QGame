@@ -4,14 +4,22 @@ using VitPro.Engine;
 
 namespace QGame {
 
-    [Serializable]
+    
     class BasicUnitRenderComponent : RenderComponent {
 
         double a, k;
         Vec3 prevPos;
-		ResourcedTexture texture;
 
-        double w, h;
+		[Serialize]
+		public ResourcedTexture texture;
+
+		[Serialize]
+		public double w;
+
+		[Serialize]
+		public double h;
+
+		BasicUnitRenderComponent() {}
 
 		public BasicUnitRenderComponent(double w, double h, ResourcedTexture texture) {
 			this.texture = texture;

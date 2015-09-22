@@ -5,10 +5,16 @@ namespace QGame {
 
     partial class Messages {
 
-        [Serializable]
+        
         public class ChangeHealth : Message {
-            long id;
-            double dhp;
+
+			[Serialize]
+            public long id;
+
+			[Serialize]
+            public double dhp;
+
+            ChangeHealth() { }
             public ChangeHealth(Entity e, double dhp) {
                 id = e.Id;
                 this.dhp = dhp;

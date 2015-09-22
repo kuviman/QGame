@@ -7,9 +7,13 @@ namespace QGame {
 
     static partial class Messages {
 
-		[Serializable]
+		
 		public class Login : Message {
-			string handle;
+
+			[Serialize]
+			public string handle;
+
+            Login() { }
 			public Login(string handle) {
 				this.handle = handle;
 			}
@@ -18,17 +22,20 @@ namespace QGame {
 			}
 		}
 
-		[Serializable]
+		
 		public class LogicSuccess : Message {
-			Entity.Proto entity;
+
+			[Serialize]
+            public Entity entity;
+
+            LogicSuccess() { }
 			public LogicSuccess(Entity entity) {
-				this.entity = new Entity.Proto(entity);
+				this.entity = entity;
 			}
 			public override IEnumerable<Message> HandleClient(Client client) {
-				var e = entity.Reconstruct();
-				e.Local = true;
-				client.Model.Add(e);
-				client.Player = e;
+				entity.Local = true;
+				client.Model.Add(entity);
+				client.Player = entity;
 				return null;
 			}
 		}

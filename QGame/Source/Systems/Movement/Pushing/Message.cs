@@ -6,10 +6,16 @@ namespace QGame {
 
 	partial class Messages {
 		
-		[Serializable]
+		
 		public class PushEntity : Message {
-			long id;
-			Vec3 v;
+
+			[Serialize]
+			public long id;
+
+			[Serialize]
+			public Vec3 v;
+
+            PushEntity() { }
 			public PushEntity(Entity entity, Vec3 dv) {
 				id = entity.Id;
 				v = dv;

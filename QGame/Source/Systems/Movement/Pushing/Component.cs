@@ -3,7 +3,7 @@ using VitPro;
 
 namespace QGame {
 
-	[Serializable]
+	
 	class PushComponent : Component {
 
 		const double PUSH_SPEED = 5;

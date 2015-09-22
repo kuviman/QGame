@@ -3,12 +3,15 @@ using VitPro;
 
 namespace QGame {
 
-	[Serializable]
+	
 	class HealthComponent : Component {
 
+		[Serialize]
 		public double MaxHealth { get; set; }
 
         double health;
+
+		[Serialize]
         public double Health {
             get {
                 return health;

@@ -5,11 +5,13 @@ using VitPro.Engine;
 
 namespace QGame {
 
-    [Serializable]
+    
     class ResourcedTexture {
         static Dictionary<string, Texture> textures = new Dictionary<string, Texture>();
 
+		[Serialize]
         public string Name { get; private set; }
+		
         public Texture Texture {
             get {
                 if (!textures.ContainsKey(Name)) {

@@ -4,10 +4,12 @@ using VitPro;
 
 namespace QGame {
 
-	[Serializable]
+	
 	class WeaponComponent : Component {
 
 		Weapon weapon;
+
+		[Serialize]
 		public Weapon Weapon {
 			get { return weapon; }
 			set {
@@ -16,11 +18,6 @@ namespace QGame {
 					weapon.component = this;
 			}
 		}
-
-        [OnDeserialized]
-        void FixSerialization(StreamingContext context) {
-            weapon.component = this;
-        }
 			
 		public WeaponComponent(Weapon weapon) {
 			Weapon = weapon;

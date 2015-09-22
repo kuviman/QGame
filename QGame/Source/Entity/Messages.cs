@@ -7,9 +7,13 @@ namespace QGame {
 
     partial class Messages {
 
-        [Serializable]
+        
         public class RemoveEntity : Message {
-            long entityId;
+
+			[Serialize]
+            public long entityId;
+
+            RemoveEntity() { }
 
             public RemoveEntity(Entity e) {
                 entityId = e.Id;
@@ -21,11 +25,19 @@ namespace QGame {
             }
         }
 
-        [Serializable]
+        
         public class UpdateComponent : Message {
-            long entityId;
-            string componentName;
-            Component component;
+
+			[Serialize]
+            public long entityId;
+
+			[Serialize]
+            public string componentName;
+
+			[Serialize]
+            public Component component;
+
+            UpdateComponent() { }
 
             public UpdateComponent(string name, Component component) {
                 entityId = component.Entity.Id;
@@ -46,9 +58,14 @@ namespace QGame {
             }
         }
 
-        [Serializable]
+        
         public class UserDisconnected : Message {
-            int userId;
+
+			[Serialize]
+            public int userId;
+
+            UserDisconnected() { }
+
             public UserDisconnected(int userId) {
                 this.userId = userId;
             }
@@ -62,9 +79,13 @@ namespace QGame {
             }
         }
 
-		[Serializable]
+		
 		public class CheckEntity : Message {
-			long id;
+
+			[Serialize]
+			public long id;
+
+            CheckEntity() { }
 			public CheckEntity(Entity e) {
 				id = e.Id;
 			}
@@ -74,7 +95,7 @@ namespace QGame {
 			}
 		}
 
-        [Serializable]
+        
         public class QueryEntities : Message {
 			public override IEnumerable<Message> Handle(Model model) {
                 List<Message> queries = new List<Message>();
@@ -85,9 +106,13 @@ namespace QGame {
             }
         }
 
-        [Serializable]
+        
         public class GetEntity : Message {
-            long id;
+
+			[Serialize]
+            public long id;
+
+            GetEntity() { }
             public GetEntity(long id) {
                 this.id = id;
             }
@@ -102,17 +127,20 @@ namespace QGame {
             }
         }
 
-        [Serializable]
+        
         public class NewEntity : Message {
-			Entity.Proto entity;
+
+			[Serialize]
+			public Entity entity;
+
+            NewEntity() { }
             public NewEntity(Entity entity) {
-				this.entity = new Entity.Proto(entity);
+				this.entity = entity;
 			}
 			public override IEnumerable<Message> Handle(Model model) {
-				var e = entity.Reconstruct();
-				if (model.FindEntity(e.Id) != null)
+				if (model.FindEntity(entity.Id) != null)
                     return null;
-                model.Add(e);
+				model.Add(entity);
                 return null;
             }
         }
